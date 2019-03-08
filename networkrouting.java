@@ -11,6 +11,8 @@ class graph
 	int dist[]=new int[10];
 	int visited[]=new int[10];
 	int parent[]=new int[10];
+	int delserv[]=new int [10];
+	int len=0;
 	void accept()
 	{
 		System.out.println("Enter number of servers:");
@@ -91,6 +93,34 @@ class graph
 		System.out.println("Connection successfully disabled,will not be considered for further communications");
 		}
 	}
+	void deleteserver()//not working 
+	{
+		System.out.println("Enter faulty server");
+		int a=sc.nextInt();
+		if(a<=v)
+		{
+		   for(int i=a;i<v;i++)
+		   {
+			   
+			   for(int j=1;j<=v;j++)
+			   {
+				   adjmat[j][i]=adjmat[j][i+1];
+			   }
+			   if(type==1)
+			   {
+				   for(int j=1;j<=v;j++)
+					   if(i!=j)
+					   adjmat[i][j]=adjmat[i+1][j];
+			   }
+		   }
+		   len++;
+		   delserv[len]=a;
+		    v--;
+			System.out.println("Server successfully disabled,will not be considered for further communications");
+		}
+		else
+			System.out.println("Server not found");
+	}
 	void dj(int s,int d)
 	{
 		initialisevisited();
@@ -151,6 +181,16 @@ class graph
 			visited[i]=0;
 		}
 	}
+	boolean isdeleted(int k)
+	{
+		boolean ret=false;
+		for(int i=1;i<=len;i++)
+		{
+			if(k>=delserv[i])
+				ret=true;
+		}
+		return ret;
+	}
 	void broadcastprims()
 	{
 		initialisevisited();
@@ -183,7 +223,11 @@ class graph
 			sum=sum+min;
 			visited[minind]=1;
 			cnt++;
-			System.out.print("-"+minind);	
+			if(isdeleted(minind)==true)
+			System.out.print("-"+(minind+1));
+			else
+				System.out.print("-"+minind);
+
 		}//end of while
 		System.out.print("\n\nMinimum Weight:"+sum);
 }
@@ -204,7 +248,9 @@ public class networkrouting {
 		g.getpath(d,s);
 		g.deleteroute();
 		g.broadcastprims();
-
+		g.deleteserver();
+		g.displaymatrix();
+		g.broadcastprims();
 	}
 
 }
