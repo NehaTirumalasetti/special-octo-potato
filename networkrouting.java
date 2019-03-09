@@ -296,6 +296,7 @@ class graph
 		int newnode=sc.nextInt();
 		char c='y';
 		if(newnode>v && newnode<10) {
+			v++; //incrementing total number of servers.
 			while(c=='Y' || c=='y') {
 				System.out.println("Server to connect to:");
 				int x=sc.nextInt();
