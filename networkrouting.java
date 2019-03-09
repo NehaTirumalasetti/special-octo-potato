@@ -231,6 +231,103 @@ class graph
 		}//end of while
 		System.out.print("\n\nMinimum Weight:"+sum);
 }
+	void insertEdge() {
+		System.out.println("Server 1:");
+		int x=sc.nextInt();
+		System.out.println("Server 2:");
+		int y=sc.nextInt();
+		if(x>=1 && x<=v && y>=1 && y<=v) {
+			if(adjmat[x][y]==9999) { //new edge to be inserted
+				System.out.println("Type of wire 1:twisted pair cable 2:coaxial cable");
+				int t=sc.nextInt();
+				if(t==1) { //twisted pair
+				System.out.println("Enter transfer time:");
+				adjmat[x][y]=sc.nextInt();
+				adjmat[y][x]=adjmat[x][y];
+				System.out.println("Twisted Pair cable succesfully added!!");
+				}
+				else if(t==2) { //coaxial cable
+					System.out.println("Enter transfer time:");
+					adjmat[x][y]=sc.nextInt();
+					System.out.println("Coaxial cable succesfully added!!");
+				}
+				else { //validation for type of cable.
+					System.out.println("Invalid cable type!!");
+				}
+			}
+			else { //edge already there
+				System.out.println("A cable already connects the given servers, do you still want to update?[Y/N]");
+				char c=sc.next().charAt(0);
+				char cc='y';
+				if(c=='Y' || c=='y') {
+					System.out.println("Enter transfer time:");
+					int time=sc.nextInt();
+					if(time>adjmat[x][y]) {
+						System.out.println("The exsisting cable transfers faster, do you still want to replace the wire?[Y/N]");
+						cc=sc.next().charAt(0);
+					}
+					if(cc=='y' || cc=='Y') {
+						System.out.println("Type of wire 1:twisted pair cable 2:coaxial cable");
+						int t=sc.nextInt();
+						if(t==1) { //twisted pair
+						adjmat[x][y]=time;
+						adjmat[y][x]=adjmat[x][y];
+						System.out.println("Twisted Pair cable succesfully repalced!!");
+						}
+						else if(t==2) { //coaxial cable
+							System.out.println("Enter transfer time:");
+							adjmat[x][y]=sc.nextInt();
+							System.out.println("Coaxial cable succesfully replaced!!");
+						}
+						else { //validation for type of cable.
+							System.out.println("Invalid cable type!!");
+						}
+					}
+				}
+			}
+		}
+		else { //validation for invalid servers
+			System.out.println("Invalid Server Numbers!!");
+		}
+	}
+	
+	void insertNode() {
+		System.out.println("Enter new server number to be added:");
+		int newnode=sc.nextInt();
+		char c='y';
+		if(newnode>v && newnode<10) {
+			while(c=='Y' || c=='y') {
+				System.out.println("Server to connect to:");
+				int x=sc.nextInt();
+				if(x>=1 && x<=v && x!=newnode) { //self loop not allowed
+					System.out.println("Type of wire 1:twisted pair cable 2:coaxial cable");
+					int t=sc.nextInt();
+					if(t==1) { //twisted pair
+					System.out.println("Enter transfer time:");
+					adjmat[x][newnode]=sc.nextInt();
+					adjmat[newnode][x]=adjmat[x][newnode];
+					System.out.println("Twisted Pair cable succesfully added!!");
+					}
+					else if(t==2) { //coaxial cable
+						System.out.println("Enter transfer time:");
+						adjmat[x][newnode]=sc.nextInt();
+						System.out.println("Coaxial cable succesfully added!!");
+					}
+					else { //validation for type of cable.
+						System.out.println("Invalid cable type!!");
+					}
+				}
+				else {
+					System.out.println("Invlaid Server Number!!");
+				}
+				System.out.println("Do you want to add more cables for the new server?[Y/N]");
+				c=sc.next().charAt(0);
+			}
+		}
+		else {
+			System.out.println("Illegal Request!!");
+		}
+	}
 }
 
 public class networkrouting {
@@ -251,6 +348,8 @@ public class networkrouting {
 		g.deleteserver();
 		g.displaymatrix();
 		g.broadcastprims();
+		g.insertEdge();
+		g.insertNode();
 	}
 
 }
