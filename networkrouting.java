@@ -150,6 +150,8 @@ class graph
 	
 
 	
+	
+	
 	void dj(int s,int d)
 	{
 		initialisevisited();
@@ -442,7 +444,8 @@ class graph
 			System.out.println("Type of Wires:Twisted Pair Cables");
 		else
 			System.out.println("Type of Wires:Coaxial Cables");
-		System.out.println("\nServer \t\tServer \t\tTransfer Time");
+		System.out.println("\nSERVER \t\tSERVER \t\tTRANSFER TIME");
+		System.out.println("----------------------------------------------");
 		for(int i=1;i<=v;i++)
 		{
 			for(int j=1;j<=v;j++)
