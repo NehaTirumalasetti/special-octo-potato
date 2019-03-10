@@ -8,11 +8,12 @@ class graph
 	int type;
 	Scanner sc=new Scanner(System.in);
 	int adjmat[][]=new int[10][10];
-	int dist[]=new int[10];
+	int time[]=new int[10];
 	int visited[]=new int[10];
 	int parent[]=new int[10];
 	int delserv[]=new int [10];
 	int len=0;
+	int total;
 	int servlist[]=new int[10];
 	graph()
 	{
@@ -158,7 +159,10 @@ class graph
 		   {
 			   for(int j=1;j<=v;j++)
 			   {
-				   adjmat[j][i]=adjmat[j][i+1];
+				   if(i!=j)
+					   adjmat[j][i]=adjmat[j][i+1];
+				   else
+					   adjmat[i][j]=9999;
 			   }
 			   if(type==1)
 			   {
@@ -193,7 +197,7 @@ class graph
 		initialisevisited();
 		for(int i=1;i<=v;i++)
 		{
-			dist[i]=adjmat[s][i];
+			time[i]=adjmat[s][i];
 			parent[i]=s;
 		}
 		
@@ -204,9 +208,9 @@ class graph
 		int next=1;
 		for(int i=1;i<=v;i++) //to find the min distance from source
 		{
-			if(dist[i]<min && visited[i]==0)
+			if(time[i]<min && visited[i]==0)
 			{
-				min=dist[i];
+				min=time[i];
 				next=i;
 			}
 		}
@@ -216,9 +220,9 @@ class graph
 		{
 			if(adjmat[next][i]!=9999&&visited[i]!=1&& i!=s)
 			{
-				if(dist[i]>(dist[next]+adjmat[next][i]))
+				if(time[i]>(time[next]+adjmat[next][i]))
 				{
-					dist[i]=dist[next]+adjmat[next][i];
+					time[i]=time[next]+adjmat[next][i];
 					parent[i]=next;
 				}
 			}
@@ -230,7 +234,7 @@ class graph
 	
 	
 	
-	void getpath(int d,int s)
+	void getpath(int s,int d)
 	{
 	    int str[]=new int[10];
 	    int d1=d;
@@ -246,12 +250,15 @@ class graph
 		{
 			System.out.print(str[j]+" ");
 		}
-		/*for(int j=1;j<=d;j++)
-		{
-			System.out.println(dist[j]+" ");
 		
-	     }*/
-		System.out.println("\nTime required to deliver is "+dist[d1]+" seconds");
+		if(time[d1]!=9999)
+		{
+			System.out.println("\nTime required to deliver is "+time[d1]+" seconds");
+			total=total+time[d1];   //for broadcast
+		}
+		else
+			System.out.println("Path doesnt exist");    //incase of coaxial
+		
 	}//getpath(int d,int s)
 
 	
@@ -295,6 +302,8 @@ class graph
 		System.out.println("\nEnter Source vertex:");	
 		src=sc.nextInt();
 		
+		if(type==1)
+				{
 		visited[src]=1;
 		cnt++;
 		arr[k]=src;
@@ -355,6 +364,20 @@ class graph
 			
 		
 		System.out.println("Time taken to broadcast the message from "+src+" is "+sum+" seconds");
+				}
+		else  //if coaxial 
+		{
+			total=0;
+			for(int i=1;i<=v;i++)
+            {
+              if(i!=src)
+              {
+            	  dj(src,i);
+                  getpath(src,i);
+              }
+             }
+			System.out.println("Time taken to broadcast the message from "+src+" is "+total+" seconds");
+		}
 }//broadcastprims()
 	
 	
@@ -520,7 +543,7 @@ public class networkrouting {
 				   s=sc.nextInt();
 				   d=sc.nextInt();
 				   g.dj(s, d);
-				   g.getpath(d,s);
+				   g.getpath(s,d);
 				   break;
 			case 2:g.broadcastprims();
 				   break;
