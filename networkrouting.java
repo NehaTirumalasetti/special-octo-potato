@@ -189,6 +189,7 @@ class graph
 	
 	void dj(int s,int d)
 	{
+		d=servlist[d];
 		initialisevisited();
 		for(int i=1;i<=v;i++)
 		{
@@ -442,13 +443,13 @@ class graph
 					adjmat[x][newnode]=sc.nextInt();
 					adjmat[newnode][x]=adjmat[x][newnode];
 					System.out.println("New Server with twisted pair cables succesfully added!!");
-					v++;
+					e++;
 					}
 					else if(type==2) { //coaxial cable
 						System.out.println("Enter transfer time:");
 						adjmat[x][newnode]=sc.nextInt();
 						System.out.println("New Server with Coaxial cable succesfully added!!");
-						v++;
+						e++;
 					}
 					else { //validation for type of cable.
 						System.out.println("Invalid cable type!!");
