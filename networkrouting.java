@@ -488,12 +488,10 @@ class graph
 		{
 			for(int j=1;j<=v;j++)
 			{
-				if(isdeleted(i)==false)
-				{
+				
 				if(adjmat[i][j]!=9999)
 				{
-					System.out.println("Server "+i+"\tServer "+j+"\t "+adjmat[i][j]+" seconds");
-				}
+					System.out.println("Server "+servlist[i]+"\tServer "+servlist[j]+"\t "+adjmat[i][j]+" seconds");
 				}
 			}
 			System.out.println();
