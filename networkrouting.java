@@ -13,11 +13,17 @@ class graph
 	int parent[]=new int[10];
 	int delserv[]=new int [10];
 	int len=0;
-	
-	
-	
-	
-	
+	int servlist[]=new int[10];
+	graph()
+	{
+		for(int i=1;i<10;i++)
+		{
+			for(int j=1;j<10;j++)
+			{
+			adjmat[i][j]=9999;
+			}
+		}
+	}
 	void accept()
 	{
 		System.out.println("Enter number of servers:");
@@ -28,6 +34,7 @@ class graph
 			{
 				adjmat[i][j]=0;
 			}
+			servlist[i]=i;//list of servers at corresponding indices for addition and deletion
 		}
 		int a=0,b=0;
 		System.out.println("Enter number of wires:");
@@ -108,7 +115,30 @@ class graph
 	}// deleteedge()
 	
 	
-	
+    /*void deleteserver()
+    {
+    	System.out.println("Enter faulty server");
+    	int a=sc.nextInt();
+    	if(a<=v&&a>0)
+    	{
+    		if(type==1)
+    		{
+    	for(int i=1;i<=v;i++)
+    	   {
+    		adjmat[i][a]=10000;
+    		adjmat[a][i]=10000;
+    	   }
+    		}
+    	   servlist[a]=-1;
+    	   //v--;
+    	   //System.out.println("Server number="+v);
+    	}
+    	else
+    	{
+    		System.out.println("Invalid Server number entered");
+    	}
+    	
+    }*/
 	
 	
 	void deleteserver()
@@ -139,8 +169,13 @@ class graph
 		   }
 		   len++;
 		   delserv[len]=a;
-		    v--;
+		   
 		    e=e-count;
+		    for(int i=a;i<v;i++)
+		    {
+		    servlist[i]=servlist[i+1];
+		    }
+		    v--;
 			System.out.println("Server successfully disabled,will not be considered for further communications");
 		}
 		else
@@ -240,7 +275,7 @@ class graph
 		boolean ret=false;
 		for(int i=1;i<=len;i++)
 		{
-			if(k>=delserv[i])
+			if(k==delserv[i])
 				ret=true;
 		}
 		return ret;
@@ -275,7 +310,7 @@ class graph
 				{
 					for(int j=1;j<=v;j++)
 					{
-						if(adjmat[i][j]<min && visited[j]==0)
+						if(adjmat[i][j]<min && visited[j]==0 &&adjmat[i][j]!=-1)
 						{
 						min=adjmat[i][j];
 						minind=j;
@@ -288,18 +323,18 @@ class graph
 		   
 			}
 			
-			
-			   sum=sum+min;
+		
+			sum=sum+min;
 			visited[minind]=1;
 			cnt++;
-			arr[k]=minind;
+			arr[k]=servlist[minind];
 			
 		
 			System.out.println("PATH FROM "+src +" TO "+arr[k]); 
 					
 			for(int i=1;i<=k;i++)
 			{
-				System.out.print(arr[i]+"-");
+				System.out.print(arr[i]+" ");
 			
 			}
 			
@@ -310,6 +345,7 @@ class graph
 				else
 					System.out.print("-"+minind);
 			*/
+		
 			
 			
 
@@ -392,6 +428,7 @@ class graph
 	{
 		System.out.println("Enter new server number to be added:");
 		int newnode=sc.nextInt();
+		servlist[v+1]=newnode;
 		char c='y';
 		if(newnode>v && newnode<10) {
 			v++; //incrementing total number of servers.
@@ -450,9 +487,12 @@ class graph
 		{
 			for(int j=1;j<=v;j++)
 			{
+				if(isdeleted(i)==false)
+				{
 				if(adjmat[i][j]!=9999)
 				{
 					System.out.println("Server "+i+"\tServer "+j+"\t "+adjmat[i][j]+" seconds");
+				}
 				}
 			}
 			System.out.println();
