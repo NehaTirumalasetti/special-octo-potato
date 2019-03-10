@@ -181,6 +181,7 @@ class graph
 		{
 			System.out.print(str[j]+" ");
 		}
+		System.out.println("\nTime required to send the message from server "+s+" to server "+d+" is "+dist[d]+" seconds");
 	}
 	void initialisevisited()
 	{
@@ -237,7 +238,7 @@ class graph
 				System.out.print("-"+minind);
 
 		}//end of while
-		System.out.print("Time taken to broadcast the messgae from "+src+" is "+sum+"seconds");
+		System.out.println("Time taken to broadcast the messgae from "+src+" is "+sum+" seconds");
 }
 	void insertEdge() {
 		System.out.println("Server 1:");
