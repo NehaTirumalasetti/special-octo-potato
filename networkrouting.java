@@ -13,11 +13,16 @@ class graph
 	int parent[]=new int[10];
 	int delserv[]=new int [10];
 	int len=0;
+	
+	
+	
+	
+	
 	void accept()
 	{
 		System.out.println("Enter number of servers:");
 		v=sc.nextInt();
-		for(int i=1;i<=v;i++) //initialising the matrix
+		for(int i=1;i<=v;i++)                //initialising the matrix
 		{ 
 			for(int j=1;j<=v;j++)
 			{
@@ -57,7 +62,11 @@ class graph
 			}
 		}
 		
-		}
+		}//accept()
+	
+	
+	
+	
 	void displaymatrix()
 	{
 		for(int i=1;i<=v;i++) 
@@ -68,7 +77,10 @@ class graph
 			}
 			System.out.println();
 		}
-	}
+	}//displaymatrix()
+	
+	
+	
 	void deleteedge()
 	{
 		System.out.println("Enter the servers the faulty wire connects");
@@ -93,7 +105,12 @@ class graph
 		e--;
 		System.out.println("Connection successfully disabled,will not be considered for further communications");
 		}
-	}
+	}// deleteedge()
+	
+	
+	
+	
+	
 	void deleteserver()
 	{
 		int count=0;
@@ -128,7 +145,11 @@ class graph
 		}
 		else
 			System.out.println("Server not found");
-	}
+	
+	}//deleteserver()
+	
+
+	
 	void dj(int s,int d)
 	{
 		initialisevisited();
@@ -165,10 +186,16 @@ class graph
 			}
 		}
 		}//end of while
-	}
+	}// dj(int s,int d)
+	
+	
+	
+	
+	
 	void getpath(int d,int s)
 	{
 	    int str[]=new int[10];
+	    int d1=d;
 	    int i=0;
 		do
 		{
@@ -181,15 +208,31 @@ class graph
 		{
 			System.out.print(str[j]+" ");
 		}
-		System.out.println("\nTime required to send the message from server "+s+" to server "+d+" is "+dist[d]+" seconds");
-	}
+		/*for(int j=1;j<=d;j++)
+		{
+			System.out.println(dist[j]+" ");
+		
+	     }*/
+		System.out.println("\nTime required to deliver is "+dist[d1]+" seconds");
+	}//getpath(int d,int s)
+
+	
+	
+	
+	
+	
 	void initialisevisited()
 	{
 		for(int i=1;i<=v;i++)
 		{
 			visited[i]=0;
 		}
-	}
+	}//initialisevisited()
+	
+	
+	
+	
+	
 	boolean isdeleted(int k)
 	{
 		boolean ret=false;
@@ -199,24 +242,34 @@ class graph
 				ret=true;
 		}
 		return ret;
-	}
+	}//isdeleted(int k)
+	
+	
+	
+	
+	
+	
 	void broadcastprims()
 	{
 		initialisevisited();
-		int src,cnt=0,min,minind=0,sum=0;
+		int arr[]=new int [10];
+		int src,cnt=0,min,minind=0,sum=0,k=1;
 		System.out.println("\nEnter Source vertex:");	
 		src=sc.nextInt();
 		
 		visited[src]=1;
 		cnt++;
-		System.out.print("\nOrder:"+src);
+		arr[k]=src;
+		k++;
+
 		while(cnt<v)
 		{
 			min=9999;
 			
 			for(int i=1;i<=v;i++)
 			{
-				if(visited[i]==1)//for all vertices already included in mst
+				
+				if(visited[i]==1)          //for all vertices already included in mst
 				{
 					for(int j=1;j<=v;j++)
 					{
@@ -224,23 +277,51 @@ class graph
 						{
 						min=adjmat[i][j];
 						minind=j;
+						
 						}
-					}//traversing one row and finding min
+					 
+					}               		//traversing one row and finding min
 				
 				}//Finding min amongst all mins in mst	
-		    }
-			sum=sum+min;
+		   
+			}
+			
+			
+			   sum=sum+min;
 			visited[minind]=1;
 			cnt++;
-			if(isdeleted(minind)==true)
-			System.out.print("-"+(minind+1));
-			else
-				System.out.print("-"+minind);
+			arr[k]=minind;
+			
+		
+			System.out.println("PATH FROM "+src +" TO "+arr[k]); 
+					
+			for(int i=1;i<=k;i++)
+			{
+				System.out.print(arr[i]+"-");
+			
+			}
+			
+			System.out.println();
+			k++;
+				/*if(isdeleted(minind)==true)
+					System.out.print("-"+(minind+1));
+				else
+					System.out.print("-"+minind);
+			*/
+			
+			
 
 		}//end of while
-		System.out.println("Time taken to broadcast the messgae from "+src+" is "+sum+" seconds");
-}
-	void insertEdge() {
+		
+			
+		
+		System.out.println("Time taken to broadcast the message from "+src+" is "+sum+" seconds");
+}//broadcastprims()
+	
+	
+	
+	void insertEdge() 
+	{
 		System.out.println("Server 1:");
 		int x=sc.nextInt();
 		System.out.println("Server 2:");
@@ -296,9 +377,17 @@ class graph
 		else { //validation for invalid servers
 			System.out.println("Invalid Server Numbers!!");
 		}
-	}
+	}//insertEdge()
 	
-	void insertNode() {
+	
+	
+	
+	
+	
+	
+	
+	void insertNode() 
+	{
 		System.out.println("Enter new server number to be added:");
 		int newnode=sc.nextInt();
 		char c='y';
@@ -336,28 +425,38 @@ class graph
 		else {
 			System.out.println("Illegal Request!!");
 		}
-	}
+	}//insertNode()
+	
+	
+	
+	
+	
+	
+	
 	void display()
 	{
-		System.out.println("Number of Servers:"+v);
+		System.out.println("****************INFORMATION **************");
+		System.out.println("\nNumber of Servers:"+v);
 		System.out.println("Number of Wired Connections:"+e);
 		if(type==1)
 			System.out.println("Type of Wires:Twisted Pair Cables");
 		else
 			System.out.println("Type of Wires:Coaxial Cables");
-		System.out.println("Server \tServer \tTransfer Time");
+		System.out.println("\nServer \t\tServer \t\tTransfer Time");
 		for(int i=1;i<=v;i++)
 		{
 			for(int j=1;j<=v;j++)
 			{
 				if(adjmat[i][j]!=9999)
 				{
-					System.out.println("Server "+i+"\tServer "+j+"\t "+adjmat[i][j]+"seconds");
+					System.out.println("Server "+i+"\tServer "+j+"\t "+adjmat[i][j]+" seconds");
 				}
 			}
 			System.out.println();
 		}
-	}
+	}//display()
+	
+	
 }
 
 public class networkrouting {
