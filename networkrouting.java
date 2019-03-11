@@ -15,6 +15,8 @@ class graph
 	int len=0;
 	int total;
 	int servlist[]=new int[10];
+	String serv[]=new String[10];
+	
 	graph()
 	{
 		for(int i=1;i<10;i++)
@@ -35,6 +37,8 @@ class graph
 			{
 				adjmat[i][j]=0;
 			}
+			System.out.println("Enter IP address of "+i);
+			serv[i]=sc.next();
 			servlist[i]=i;//list of servers at corresponding indices for addition and deletion
 		}
 		int a=0,b=0;
@@ -116,30 +120,7 @@ class graph
 	}// deleteedge()
 	
 	
-    /*void deleteserver()
-    {
-    	System.out.println("Enter faulty server");
-    	int a=sc.nextInt();
-    	if(a<=v&&a>0)
-    	{
-    		if(type==1)
-    		{
-    	for(int i=1;i<=v;i++)
-    	   {
-    		adjmat[i][a]=10000;
-    		adjmat[a][i]=10000;
-    	   }
-    		}
-    	   servlist[a]=-1;
-    	   //v--;
-    	   //System.out.println("Server number="+v);
-    	}
-    	else
-    	{
-    		System.out.println("Invalid Server number entered");
-    	}
-    	
-    }*/
+
 	
 	
 	void deleteserver()
@@ -178,6 +159,7 @@ class graph
 		    for(int i=a;i<v;i++)
 		    {
 		    servlist[i]=servlist[i+1];
+		    serv[i]=serv[i+1];
 		    }
 		    v--;
 			System.out.println("Server successfully disabled,will not be considered for further communications");
@@ -234,7 +216,7 @@ class graph
 		}
 		else
 		{
-			System.out.println(" Server not found");
+			System.out.println("Server not found");
 		}
 	}// dj(int s,int d)
 	
@@ -375,7 +357,6 @@ class graph
             	  if(isdeleted(i)==false&&isdeleted(src)==false)
             	  {
             	  dj(src,i);
-                  getpath(src,i);
             	  }
               }
              }
@@ -460,10 +441,13 @@ class graph
 	{
 		System.out.println("Enter new server number to be added:");
 		int newnode=sc.nextInt();
-		servlist[v+1]=newnode;
+	
 		char c='y';
 		if(newnode>v && newnode<10) {
 			v++; //incrementing total number of servers.
+			servlist[v+1]=newnode;
+			System.out.println("Enter IP address of "+newnode);
+			serv[v+1]=sc.next();
 			while(c=='Y' || c=='y') 
 			{
 				System.out.println("Server to connect to:");
@@ -523,6 +507,8 @@ class graph
 				if(adjmat[i][j]!=9999)
 				{
 					System.out.println("Server "+servlist[i]+"\tServer "+servlist[j]+"\t "+adjmat[i][j]+" seconds");
+					System.out.println("IP "+serv[i]+"\tIP "+serv[j]+"\t "+adjmat[i][j]+" seconds");
+
 				}
 			}
 			System.out.println();
