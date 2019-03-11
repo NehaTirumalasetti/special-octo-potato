@@ -193,6 +193,8 @@ class graph
 	
 	void dj(int s,int d)
 	{
+		if(isdeleted(s)==false&&isdeleted(d)==false)
+		{
 		d=servlist[d];
 		initialisevisited();
 		for(int i=1;i<=v;i++)
@@ -228,6 +230,12 @@ class graph
 			}
 		}
 		}//end of while
+		getpath(s,d);
+		}
+		else
+		{
+			System.out.println(" Server not found");
+		}
 	}// dj(int s,int d)
 	
 	
@@ -301,7 +309,8 @@ class graph
 		int src,cnt=0,min,minind=0,sum=0,k=1;
 		System.out.println("\nEnter Source vertex:");	
 		src=sc.nextInt();
-		
+		if(isdeleted(src)==false&&src<=v&&src>0)
+		{
 		if(type==1)
 				{
 		visited[src]=1;
@@ -350,15 +359,6 @@ class graph
 			
 			System.out.println();
 			k++;
-				/*if(isdeleted(minind)==true)
-					System.out.print("-"+(minind+1));
-				else
-					System.out.print("-"+minind);
-			*/
-		
-			
-			
-
 		}//end of while
 		
 			
@@ -372,11 +372,19 @@ class graph
             {
               if(i!=src)
               {
+            	  if(isdeleted(i)==false&&isdeleted(src)==false)
+            	  {
             	  dj(src,i);
                   getpath(src,i);
+            	  }
               }
              }
 			System.out.println("Time taken to broadcast the message from "+src+" is "+total+" seconds");
+		}
+		}
+		else
+		{
+			System.out.println("Server not found");
 		}
 }//broadcastprims()
 	
@@ -543,7 +551,7 @@ public class networkrouting {
 				   s=sc.nextInt();
 				   d=sc.nextInt();
 				   g.dj(s, d);
-				   g.getpath(s,d);
+				   
 				   break;
 			case 2:g.broadcastprims();
 				   break;
